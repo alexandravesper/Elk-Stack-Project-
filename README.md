@@ -4,8 +4,7 @@ The files in this repository were used to configure the network depicted below.
 
 ![Elk Stack Deployment](./Images/ElkStackDeployment.png) 
 
-## Docker output here
-![Other Image](./Images/Docker_ps_output.png) 
+ 
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the .yml file may be used to install only certain pieces of it, such as Filebeat.
 
@@ -29,7 +28,7 @@ Load balancing ensures that the application will be highly available, in additio
 -  What aspect of security do load balancers protect? Load Balancers protect the availability of the network in relation to the CIA triad. 
 What is the advantage of a jump box? The jump box sits in front of the other machines that are not exposed to the public internet. It is used to access the network and the virtual machines created. The jump box is configured to download the Docker container that runs Ansible. 
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the _____ and system _____.
+Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the logs and system traffic.
 - Filebeat collects data about the file system and monitors files for suspicious changes.
 - Metricbeat collects matchine metrics such as CPU usage and uptime. 
 
@@ -56,10 +55,10 @@ A summary of the access policies in place can be found in the table below.
 
 | Name       	| Publicly Accessible 	| Allowed IP Addresses  	|
 |------------	|---------------------	|-----------------------	|
-| Jump Box   	| No                  	| Personal IP           	|
-| DVWA Web-1 	| No                  	| 10.0.0.8, Personal IP 	|
-| DVWA Web-2 	| No                  	| 10.0.0.8, Personal IP 	|
-| Elk Server 	| No                  	| 10.0.0.8, Personal IP 	|
+| Jump Box   	| No                  	| 72.231.177.62          	|
+| DVWA Web-1 	| No                  	| 10.0.0.8, 72.231.177.62	|
+| DVWA Web-2 	| No                  	| 10.0.0.8, 72.231.177.62	|
+| Elk Server 	| No                  	| 10.0.0.8, 72.231.177.62	|
 
 ### Elk Configuration
 
@@ -67,14 +66,16 @@ Ansible was used to automate configuration of the ELK machine. No configuration 
 The main advantage of automating configuration with Ansible is how simple it is to use and set up. It accelerates the process of setting up configurations for the servers using playbooks. 
 
 The playbook implements the following tasks:
-- _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
+
 -  From the ansible container add the new Elk VM to Ansible's hosts file. Add in the Elk group in the hosts file along with it's private IP and specify python3. ([elk] 10.1.0.4 ansible_python_interpreter=/usr/bin/python3)
 - Create the playbook install-elk.yml that specifies elk as the target hosts. Within the playbook, set the vm.max_map_count to 262144 to use more memory. Install docker.io and python3-pip apt packages. Installs the pip packages docker, and downloads the Docker container sebp/elk:761. Configures the container to start with the port mappings: 5601:5601, 9200:9200, 5044:5044. Starts the container and enables the docker service on boot. 
 - Launch and expose the container. Run the playbook. After it completes, ssh into the Elk server and ensure that sebp/elk:761 container is running. 
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-Users/alexandravesper/Downloads/README/Images/docker_ps_output.png
+## Docker output here
+![Other Image](./Images/Docker_ps_output.png) 
+
 
 
 ### Target Machines & Beats
@@ -98,9 +99,9 @@ SSH into the control node and follow the steps below:
 - Run the playbook, and navigate to the Filebeat/Metricbeat installation page on the Elk Server GUI to check that the installation worked as expected.
 
 
-- _Which file is the playbook? Where do you copy it? The playbook is called filebeat-playbook.yml. It is copied to the /etc/ansible/hosts directory.
+- Which file is the playbook? Where do you copy it? The playbook is called filebeat-playbook.yml. It is copied to the /etc/ansible/hosts directory.
 
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_The file that needs to be updated is the filebeat-config.yml file which is the configuration file. It needs to be updated with the private IP address of the Elk server in lines #1106 and #1806. In the ansible container's hosts file the elk group should be added  with the private IP of the Elk server. 
+- Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_The file that needs to be updated is the filebeat-config.yml file which is the configuration file. It needs to be updated with the private IP address of the Elk server in lines #1106 and #1806. In the ansible container's hosts file the elk group should be added  with the private IP of the Elk server. 
 
 - _Which URL do you navigate to in order to check that the ELK server is running?
 The URL to verify the Elk server is running is http://[public ip address]:5601/app/kibana
